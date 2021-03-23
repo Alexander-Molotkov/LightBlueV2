@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace LightBlueV2
 {
-    public partial class Form1 : Form
+    public partial class Board : Form
     {
-        public Form1()
+        public Board()
         {
             InitializeComponent();
+        }
+
+        private void Board_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
