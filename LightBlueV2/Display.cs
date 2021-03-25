@@ -28,7 +28,7 @@ namespace LightBlueV2
             PB.BackColor = Color.PapayaWhip;
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
             
-            Board.MoveForm moveForm = new Board.MoveForm(PB);
+            Display.MoveForm moveForm = new Display.MoveForm(PB);
             moveForm.DrawBoxes();
             for (int i = 0; i < 8; i++)
             {
