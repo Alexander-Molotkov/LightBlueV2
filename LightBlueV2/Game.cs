@@ -48,7 +48,6 @@ namespace LightBlueV2
 				//TODO:
 				//RecordMove(PlayerMove)
 				MakeMove(PlayerMove, this.Board);
-				
 			}
 			HasMoved = false;
 		}
