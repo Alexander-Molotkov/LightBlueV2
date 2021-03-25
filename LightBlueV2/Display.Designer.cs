@@ -1,7 +1,7 @@
 ﻿
 namespace LightBlueV2
 {
-    partial class Board
+    partial class Display
     {
         /// <summary>
         /// Required designer variable.

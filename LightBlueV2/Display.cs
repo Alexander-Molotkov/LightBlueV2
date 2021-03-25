@@ -10,14 +10,17 @@ using System.Windows.Forms;
 
 namespace LightBlueV2
 {
-    public partial class Board : Form
+    public partial class Display : Form
     {
-        public Board()
+        public Display()
         {
             InitializeComponent();
         }
 
+
+        private Game G = new Game();
         private PictureBox PB = new PictureBox();
+
 
         private void Board_Load(object sender, EventArgs e)
         {

@@ -16,8 +16,7 @@ namespace LightBlueV2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Board board = new Board();
-            Application.Run(board);
+            Application.Run(new Display());
         }
     }
 }
