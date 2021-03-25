@@ -24,15 +24,16 @@ namespace LightBlueV2
             PB.Dock = DockStyle.Fill;
             PB.BackColor = Color.PapayaWhip;
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
-
             
-            Board.MoveForm moveForm = new Board.MoveForm();
-            moveForm.pieceDropTarget.Parent = PB;
-            moveForm.pieceDropTarget.Location = new Point(200,200);
-            moveForm.pieceDragSource.Parent = PB;
-            moveForm.pieceDragSource.BackColor = Color.Transparent;
-            moveForm.pieceDropTarget.BackColor = Color.Transparent;
-            moveForm.pieceDragSource.Location = new Point(500, 500);
+            Board.MoveForm moveForm = new Board.MoveForm(PB);
+            moveForm.DrawBoxes();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    moveForm.pbs[i, j].Parent = PB;
+                }
+            }
             this.Controls.Add(PB);
         }
 
@@ -62,30 +63,61 @@ namespace LightBlueV2
         // Start a drag of a piece.
         public class MoveForm : Form
         {
-            public PictureBox pieceDragSource;
-            public PictureBox pieceDropTarget;
-            public MoveForm()
+            public PictureBox[,] pbs;
+            public MoveForm(PictureBox PB)
             {
-                this.SuspendLayout();
-                pieceDragSource = new PictureBox();
-                pieceDragSource.Image = Image.FromFile("../../Images/black_bishop.png");
-                pieceDropTarget = new PictureBox();
-                pieceDropTarget.Image = Image.FromFile("../../Images/white_bishop.png");
-                pieceDragSource.Width = 100;
-                pieceDragSource.Height = 100;
-                pieceDropTarget.Width = 100;
-                pieceDropTarget.Height = 100;
-                pieceDropTarget.SizeMode = PictureBoxSizeMode.StretchImage;
-                pieceDragSource.SizeMode = PictureBoxSizeMode.StretchImage;
-                pieceDropTarget.Dock = DockStyle.None;
-                pieceDragSource.Dock = DockStyle.None;
-                pieceDragSource.MouseDown += pieceDragSource_MouseDown;
-                pieceDropTarget.DragEnter += pieceDropTarget_DragEnter;
-                pieceDropTarget.DragDrop += pieceDropTarget_DragDrop;
-                pieceDropTarget.AllowDrop = true;
-                this.Controls.Add(pieceDragSource);
-                this.Controls.Add(pieceDropTarget);
-                this.ResumeLayout(false);
+                // 695 by 720
+                float SquareWidth = 695 / 8;
+                pbs = new PictureBox[8, 8];
+                int x_coord = 0;
+                int y_coord = 0;
+                for (int i = 0; i < pbs.GetLength(0); i++)
+                {
+                    for (int j = 0; j < pbs.GetLength(1); j++)
+                    {
+                        pbs[i, j] = new PictureBox();
+                        pbs[i, j].Width = (int)Math.Floor(SquareWidth - 10);
+                        pbs[i,j].Height = (int)Math.Floor(SquareWidth - 10);
+                        pbs[i,j].SizeMode = PictureBoxSizeMode.StretchImage;
+                        pbs[i,j].Dock = DockStyle.None;
+                        pbs[i,j].MouseDown += pieceDragSource_MouseDown;
+                        pbs[i,j].DragEnter += pieceDropTarget_DragEnter;
+                        pbs[i,j].DragDrop += pieceDropTarget_DragDrop;
+                        pbs[i,j].Location = new Point(x_coord, y_coord);
+                        pbs[i,j].BackColor = Color.Transparent;
+                        pbs[i, j].AllowDrop = true;
+                        this.Controls.Add(pbs[i,j]);
+                        x_coord += (int)Math.Floor(SquareWidth);
+                    }
+                    x_coord = 0;
+                    y_coord += (int)Math.Floor(SquareWidth);
+                }
+            }
+            public void DrawBoxes()
+            {
+                pbs[0, 0].Image = Image.FromFile("../../Images/white_rook.png");
+                pbs[0, 1].Image = Image.FromFile("../../Images/white_knight.png");
+                pbs[0, 2].Image = Image.FromFile("../../Images/white_bishop.png");
+                pbs[0, 3].Image = Image.FromFile("../../Images/white_king.png");
+                pbs[0, 4].Image = Image.FromFile("../../Images/white_queen.png");
+                pbs[0, 5].Image = Image.FromFile("../../Images/white_bishop.png");
+                pbs[0, 6].Image = Image.FromFile("../../Images/white_knight.png");
+                pbs[0, 7].Image = Image.FromFile("../../Images/white_rook.png");
+
+                for (int i = 0; i < 8; i++)
+                {
+                    pbs[1, i].Image = Image.FromFile("../../Images/white_pawn.png");
+                    pbs[6, i].Image = Image.FromFile("../../Images/black_pawn.png");
+                }
+
+                pbs[7, 0].Image = Image.FromFile("../../Images/black_rook.png");
+                pbs[7, 1].Image = Image.FromFile("../../Images/black_knight.png");
+                pbs[7, 2].Image = Image.FromFile("../../Images/black_bishop.png");
+                pbs[7, 3].Image = Image.FromFile("../../Images/black_king.png");
+                pbs[7, 4].Image = Image.FromFile("../../Images/black_queen.png");
+                pbs[7, 5].Image = Image.FromFile("../../Images/black_bishop.png");
+                pbs[7, 6].Image = Image.FromFile("../../Images/black_knight.png");
+                pbs[7, 7].Image = Image.FromFile("../../Images/black_rook.png");
             }
             public void pieceDragSource_MouseDown(object sender,
                 MouseEventArgs e)
@@ -93,7 +125,8 @@ namespace LightBlueV2
                 // Start the drag if it's the left mouse button.
                 if (e.Button == MouseButtons.Left)
                 {
-                    pieceDragSource.DoDragDrop(pieceDragSource.Image,
+                    PictureBox pb = (PictureBox)sender;
+                    pb.DoDragDrop(pb.Image,
                         DragDropEffects.Move);
                 }
             }
@@ -118,7 +151,8 @@ namespace LightBlueV2
             public void pieceDropTarget_DragDrop(object sender,
                 DragEventArgs e)
             {
-                pieceDropTarget.Image =
+                PictureBox pb = (PictureBox)sender;
+                pb.Image =
                     (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
             }
         }
