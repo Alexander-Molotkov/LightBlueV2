@@ -25,6 +25,14 @@ namespace LightBlueV2
             PB.BackColor = Color.PapayaWhip;
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
 
+            
+            Board.MoveForm moveForm = new Board.MoveForm();
+            moveForm.pieceDropTarget.Parent = PB;
+            moveForm.pieceDropTarget.Location = new Point(200,200);
+            moveForm.pieceDragSource.Parent = PB;
+            moveForm.pieceDragSource.BackColor = Color.Transparent;
+            moveForm.pieceDropTarget.BackColor = Color.Transparent;
+            moveForm.pieceDragSource.Location = new Point(500, 500);
             this.Controls.Add(PB);
         }
 
@@ -50,6 +58,69 @@ namespace LightBlueV2
                     }
                 }
             }
-        }   
+        }
+        // Start a drag of a piece.
+        public class MoveForm : Form
+        {
+            public PictureBox pieceDragSource;
+            public PictureBox pieceDropTarget;
+            public MoveForm()
+            {
+                this.SuspendLayout();
+                pieceDragSource = new PictureBox();
+                pieceDragSource.Image = Image.FromFile("../../Images/black_bishop.png");
+                pieceDropTarget = new PictureBox();
+                pieceDropTarget.Image = Image.FromFile("../../Images/white_bishop.png");
+                pieceDragSource.Width = 100;
+                pieceDragSource.Height = 100;
+                pieceDropTarget.Width = 100;
+                pieceDropTarget.Height = 100;
+                pieceDropTarget.SizeMode = PictureBoxSizeMode.StretchImage;
+                pieceDragSource.SizeMode = PictureBoxSizeMode.StretchImage;
+                pieceDropTarget.Dock = DockStyle.None;
+                pieceDragSource.Dock = DockStyle.None;
+                pieceDragSource.MouseDown += pieceDragSource_MouseDown;
+                pieceDropTarget.DragEnter += pieceDropTarget_DragEnter;
+                pieceDropTarget.DragDrop += pieceDropTarget_DragDrop;
+                pieceDropTarget.AllowDrop = true;
+                this.Controls.Add(pieceDragSource);
+                this.Controls.Add(pieceDropTarget);
+                this.ResumeLayout(false);
+            }
+            public void pieceDragSource_MouseDown(object sender,
+                MouseEventArgs e)
+            {
+                // Start the drag if it's the left mouse button.
+                if (e.Button == MouseButtons.Left)
+                {
+                    pieceDragSource.DoDragDrop(pieceDragSource.Image,
+                        DragDropEffects.Move);
+                }
+            }
+            // Allow a move of an image.
+            private void pieceDropTarget_DragEnter(object sender,
+                DragEventArgs e)
+            {
+                // See if this is a move and the data includes an image.
+                if (e.Data.GetDataPresent(DataFormats.Bitmap) &&
+                    (e.AllowedEffect & DragDropEffects.Move) != 0)
+                {
+                    // Allow this.
+                    e.Effect = DragDropEffects.Move;
+                }
+                else
+                {
+                    // Don't allow any other drop.
+                    e.Effect = DragDropEffects.None;
+                }
+            }
+            // Accept the drop.
+            public void pieceDropTarget_DragDrop(object sender,
+                DragEventArgs e)
+            {
+                pieceDropTarget.Image =
+                    (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
+            }
+        }
     }
 }
