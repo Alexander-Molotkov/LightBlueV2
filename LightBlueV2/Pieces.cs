@@ -1,4 +1,8 @@
-﻿namespace LightBlueV2
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace LightBlueV2
 {
 	public class Bishop : Piece
 	{
@@ -25,7 +29,7 @@
 
 	public class Setup
 	{
-		public int populateBoard(Piece[][] board)
+		public int PopulateBoard(Piece[][] board)
 		{
 			Rook piece = new Rook();
 			piece.color = "black";
