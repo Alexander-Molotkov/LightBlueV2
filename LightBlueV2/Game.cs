@@ -9,7 +9,7 @@ namespace LightBlueV2
 	// TODO: PUT THIS IN BOARD
 	// Start a drag of a piece.
 	public class MoveForm : Form {
-		private PictureBox pieceDragSource;
+		private PictureBox pieceDragSource = new Image.FromFile("Images/;
 		private PictureBox pieceDropTarget;
 		private void MoveForm_Load(object sender, EventArgs e)
 		{
@@ -49,7 +49,7 @@ namespace LightBlueV2
 				Turn(player);
 			}
 		}
-		public void Turn()
+		public void Turn(string player)
 		{
 			if (player == "white")
 			{
