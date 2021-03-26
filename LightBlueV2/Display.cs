@@ -129,8 +129,11 @@ namespace LightBlueV2
                 if (e.Button == MouseButtons.Left)
                 {
                     PictureBox pb = (PictureBox)sender;
-                    pb.DoDragDrop(pb.Image,
-                        DragDropEffects.Move);
+                    if (pb.Image != null)
+                    {
+                        pb.DoDragDrop(pb.Image,
+                            DragDropEffects.Move);
+                    }
                 }
             }
             // Allow a move of an image.
