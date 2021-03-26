@@ -1,12 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace LightBlueV2
 {
@@ -68,14 +70,14 @@ namespace LightBlueV2
             public Move CurrentMove;
             public PictureBox[,] pbs;
 
-            private Game G;
+            // 695 by 720
+            public float SquareWidth = 695 / 8;
+            private Cursor dragCursor;
+
+            private Game G = new Game();
 
             public Board(PictureBox PB)
             {
-
-                G = new Game();
-                // 695 by 720
-                float SquareWidth = 695 / 8;
                 pbs = new PictureBox[8, 8];
                 int x_coord = 0;
                 int y_coord = 0;
@@ -91,6 +93,7 @@ namespace LightBlueV2
                         pbs[i,j].MouseDown += pieceDragSource_MouseDown;
                         pbs[i,j].DragEnter += pieceDropTarget_DragEnter;
                         pbs[i,j].DragDrop += pieceDropTarget_DragDrop;
+                        pbs[i, j].GiveFeedback += pieceDragSource_GiveFeedback;
                         pbs[i,j].Location = new Point(x_coord, y_coord);
                         pbs[i,j].BackColor = Color.Transparent;
                         pbs[i, j].AllowDrop = true;
@@ -134,10 +137,27 @@ namespace LightBlueV2
 
                     if (pb.Image != null)
                     {
-                        pb.DoDragDrop(pb.Image,
+                        Image tempImage = pb.Image;
+                        pb.Image = null;
+                        Bitmap bm = new Bitmap(tempImage);
+                        IntPtr Hicon = bm.GetHicon();
+                        dragCursor = new Cursor(Hicon);
+                        Cursor.Current = dragCursor;
+                        DragDropEffects drop = pb.DoDragDrop(tempImage,
                             DragDropEffects.Move);
+                        if (drop == DragDropEffects.None)
+                        {
+                            pb.Image = tempImage;
+                        }
                     }
                 }
+            }
+            private void pieceDragSource_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+            {
+                // Use custom cursor.
+                // Sets the custom cursor based upon the effect.
+                e.UseDefaultCursors = false;
+                Cursor.Current = dragCursor;
             }
             // Allow a move of an image.
             private void pieceDropTarget_DragEnter(object sender,
@@ -171,7 +191,10 @@ namespace LightBlueV2
                     pb.Image =
                         (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
                 }
-                DrawBoxesFromDisplay(G.Pieces);
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
             }
         }
     }
