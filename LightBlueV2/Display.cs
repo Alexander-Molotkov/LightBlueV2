@@ -94,6 +94,7 @@ namespace LightBlueV2
                         pbs[i,j].MouseDown += pieceDragSource_MouseDown;
                         pbs[i,j].DragEnter += pieceDropTarget_DragEnter;
                         pbs[i,j].DragDrop += pieceDropTarget_DragDrop;
+                        pbs[i, j].GiveFeedback += pieceDragSource_GiveFeedback;
                         pbs[i,j].Location = new Point(x_coord, y_coord);
                         pbs[i,j].BackColor = Color.Transparent;
                         pbs[i, j].AllowDrop = true;
@@ -158,15 +159,27 @@ namespace LightBlueV2
 
                     if (pb.Image != null)
                     {
-                        Bitmap bm = new Bitmap(pb.Image);
+                        Image tempImage = pb.Image;
+                        pb.Image = null;
+                        Bitmap bm = new Bitmap(tempImage);
                         IntPtr Hicon = bm.GetHicon();
                         dragCursor = new Cursor(Hicon);
-                        
-                        pb.DoDragDrop(pb.Image,
+                        Cursor.Current = dragCursor;
+                        DragDropEffects drop = pb.DoDragDrop(tempImage,
                             DragDropEffects.Move);
-                        pb.Image = null;
+                        if (drop == DragDropEffects.None)
+                        {
+                            pb.Image = tempImage;
+                        }
                     }
                 }
+            }
+            private void pieceDragSource_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+            {
+                // Use custom cursor.
+                // Sets the custom cursor based upon the effect.
+                e.UseDefaultCursors = false;
+                Cursor.Current = dragCursor;
             }
             // Allow a move of an image.
             private void pieceDropTarget_DragEnter(object sender,
@@ -199,6 +212,10 @@ namespace LightBlueV2
                 {
                     pb.Image =
                         (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
                 }
             }
         }
