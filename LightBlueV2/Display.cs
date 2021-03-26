@@ -29,7 +29,7 @@ namespace LightBlueV2
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
             
             Display.MoveForm moveForm = new Display.MoveForm(PB);
-            moveForm.DrawBoxes();
+            moveForm.DrawBoxesInit();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -96,7 +96,7 @@ namespace LightBlueV2
                     y_coord += (int)Math.Floor(SquareWidth);
                 }
             }
-            public void DrawBoxes()
+            public void DrawBoxesInit()
             {
                 pbs[0, 0].Image = Image.FromFile("../../Images/white_rook.png");
                 pbs[0, 1].Image = Image.FromFile("../../Images/white_knight.png");
@@ -121,6 +121,19 @@ namespace LightBlueV2
                 pbs[7, 5].Image = Image.FromFile("../../Images/black_bishop.png");
                 pbs[7, 6].Image = Image.FromFile("../../Images/black_knight.png");
                 pbs[7, 7].Image = Image.FromFile("../../Images/black_rook.png");
+            }
+            public void DrawBoxesFromDisplay(Piece[,] pieces)
+            {
+                for (int i = 0; i < pieces.GetLength(0); i++)
+                {
+                    for (int j = 0; j < pieces.GetLength(1); j++)
+                    {
+                        string img = pieces[i, j].Img;
+                        int row = pieces[i, j].Row;
+                        int col = pieces[i, j].Col;
+                        pbs[row, col].Image = Image.FromFile(img);
+                    }
+                }
             }
             public void pieceDragSource_MouseDown(object sender,
                 MouseEventArgs e)

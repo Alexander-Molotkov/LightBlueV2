@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,7 +17,7 @@ namespace LightBlueV2
 	public class Game
 	{
 
-		Piece[,] Board = new Piece[8, 8];
+		Piece[,] Pieces = new Piece[8, 8];
 		private bool HasMoved { get; set; }
 		private Move PlayerMove { get; set; }
 		private bool EndGame { get; set; }
@@ -26,7 +27,7 @@ namespace LightBlueV2
         public void GameLoop()
 		{
 
-			PopulateBoard(this.Board); 
+			PopulateBoard(this.Pieces); 
 			TurnNum = 0;
 
 			while (!EndGame)
@@ -42,12 +43,12 @@ namespace LightBlueV2
 				//Wait for a move
 			}
 
-			if (ValidateMove(PlayerMove, this.Board))
+			if (ValidateMove(PlayerMove, this.Pieces))
 			{
 				TurnNum++;
 				//TODO:
 				//RecordMove(PlayerMove)
-				MakeMove(PlayerMove, this.Board);
+				MakeMove(PlayerMove, this.Pieces);
 			}
 			HasMoved = false;
 		}
@@ -65,40 +66,40 @@ namespace LightBlueV2
 			return;
         }
 
-		public int PopulateBoard(Piece[,] board)
+		public int PopulateBoard(Piece[,] pieces)
 		{
 			for(int i = 0; i < 8; i++)
             {
 				for(int j = 0; j < 8; j++)
                 {
-					Board[i, j] = null;
+					pieces[i, j] = null;
                 }
             }
 
-			board[0,0] = new Rook('B');
-			board[0,7] = new Rook('B');
-			board[7,0] = new Rook('W');
-			board[7,7] = new Rook('W');
-			board[0,1] = new Knight('B');
-			board[0,6] = new Knight('B');
-			board[7,1] = new Knight('W');
-			board[7,6] = new Knight('W');
-			board[0,2] = new Bishop('B');
-			board[0,5] = new Bishop('B');
-			board[7,2] = new Bishop('W');
-            board[7,5] = new Bishop('W');
-			board[0,3] = new Queen('B');
-			board[7,3] = new Queen('W');
-			board[0,4] = new King('B');
-			board[7,4] = new King('W');
+			pieces[0,0] = new Rook('B', 0, 0);
+			pieces[0,7] = new Rook('B', 0, 7);
+			pieces[7,0] = new Rook('W', 7, 0);
+			pieces[7,7] = new Rook('W', 7, 7);
+			pieces[0,1] = new Knight('B', 0, 1);
+			pieces[0,6] = new Knight('B', 0, 6);
+			pieces[7,1] = new Knight('W', 7, 1);
+			pieces[7,6] = new Knight('W', 7, 6);
+			pieces[0,2] = new Bishop('B', 0 , 2);
+			pieces[0,5] = new Bishop('B', 0 , 5);
+			pieces[7,2] = new Bishop('W', 7 , 2);
+			pieces[7,5] = new Bishop('W', 7, 5);
+			pieces[0,3] = new Queen('B', 0 , 3);
+			pieces[7,3] = new Queen('W', 7, 3);
+			pieces[0,4] = new King('B', 0, 4);
+			pieces[7,4] = new King('W', 7, 4);
 
 			for (int i = 0; i < 8; i++)
 			{
-				board[1,i] = new Pawn('B');
+				pieces[1,i] = new Pawn('B', 1, i);
 			}
 			for (int i = 0; i < 8; i++)
 			{
-				board[6,i] = new Pawn('W');
+				pieces[6,i] = new Pawn('W', 1, i);
 			}
 			return 0;
 		}
