@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace LightBlueV2
 {
@@ -67,10 +69,11 @@ namespace LightBlueV2
         public class MoveForm : Form
         {
             public PictureBox[,] pbs;
+            // 695 by 720
+            public float SquareWidth = 695 / 8;
+            private Cursor dragCursor;
             public MoveForm(PictureBox PB)
             {
-                // 695 by 720
-                float SquareWidth = 695 / 8;
                 pbs = new PictureBox[8, 8];
                 int x_coord = 0;
                 int y_coord = 0;
@@ -144,8 +147,13 @@ namespace LightBlueV2
                     PictureBox pb = (PictureBox)sender;
                     if (pb.Image != null)
                     {
+                        Bitmap bm = new Bitmap(pb.Image);
+                        IntPtr Hicon = bm.GetHicon();
+                        dragCursor = new Cursor(Hicon);
+                        
                         pb.DoDragDrop(pb.Image,
                             DragDropEffects.Move);
+                        pb.Image = null;
                     }
                 }
             }
