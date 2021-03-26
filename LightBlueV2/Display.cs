@@ -143,6 +143,11 @@ namespace LightBlueV2
                         IntPtr Hicon = bm.GetHicon();
                         dragCursor = new Cursor(Hicon);
                         Cursor.Current = dragCursor;
+                        // Graphics graphics = this.CreateGraphics();
+                        // Rectangle rectangle = new Rectangle(
+                          // new Point(10, 10), new Size((int)Math.Floor(SquareWidth),
+                          // (int)Math.Floor(SquareWidth)));
+                        // dragCursor.Draw(graphics, rectangle);
                         DragDropEffects drop = pb.DoDragDrop(tempImage,
                             DragDropEffects.Move);
                         if (drop == DragDropEffects.None)
