@@ -212,7 +212,7 @@ namespace LightBlueV2
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
-            if (rowDiff == 0 || colDiff == 0 || rowDiff == colDiff)
+            if (rowDiff == 0 || colDiff == 0 || Math.Abs(rowDiff) == Math.Abs(colDiff))
             {
                 return true;
             }
