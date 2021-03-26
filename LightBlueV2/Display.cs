@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,7 +20,6 @@ namespace LightBlueV2
         }
 
 
-        private Game G = new Game();
         private PictureBox PB = new PictureBox();
 
 
@@ -30,13 +29,14 @@ namespace LightBlueV2
             PB.BackColor = Color.PapayaWhip;
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
             
-            Display.MoveForm moveForm = new Display.MoveForm(PB);
-            moveForm.DrawBoxesInit();
+            Display.Board board = new Display.Board(PB);
+            board.DrawBoxesInit();
+
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    moveForm.pbs[i, j].Parent = PB;
+                    board.pbs[i, j].Parent = PB;
                 }
             }
             this.Controls.Add(PB);
@@ -66,13 +66,18 @@ namespace LightBlueV2
             }
         }
         // Start a drag of a piece.
-        public class MoveForm : Form
+        public class Board : Form
         {
+            public Move CurrentMove;
             public PictureBox[,] pbs;
+
             // 695 by 720
             public float SquareWidth = 695 / 8;
             private Cursor dragCursor;
-            public MoveForm(PictureBox PB)
+
+            private Game G = new Game();
+
+            public Board(PictureBox PB)
             {
                 pbs = new PictureBox[8, 8];
                 int x_coord = 0;
@@ -145,6 +150,12 @@ namespace LightBlueV2
                 if (e.Button == MouseButtons.Left)
                 {
                     PictureBox pb = (PictureBox)sender;
+
+                    float SquareWidth = 695 / 8;
+                    CurrentMove.fromCol = (int) pb.Location.X / (int) SquareWidth;
+                    CurrentMove.fromRow = (int) pb.Location.Y / (int) SquareWidth;
+                    
+
                     if (pb.Image != null)
                     {
                         Bitmap bm = new Bitmap(pb.Image);
@@ -179,8 +190,16 @@ namespace LightBlueV2
                 DragEventArgs e)
             {
                 PictureBox pb = (PictureBox)sender;
-                pb.Image =
-                    (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
+
+                float SquareWidth = 695 / 8;
+                CurrentMove.toCol = (int) pb.Location.X / (int) SquareWidth;
+                CurrentMove.toRow = (int) pb.Location.Y / (int) SquareWidth;
+
+                if (G.ValidateMove(CurrentMove))
+                {
+                    pb.Image =
+                        (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
+                }
             }
         }
     }

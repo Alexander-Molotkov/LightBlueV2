@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace LightBlueV2
 {
-	public class Piece
+	public abstract class Piece
 	{
         public char Name;
         public int Row;
@@ -24,6 +24,8 @@ namespace LightBlueV2
             this.Row = row;
             this.Col = col;
         }
+
+        public abstract bool ValidMove(Move m, Piece[,] Board);
 	}
 	public class Bishop : Piece
 	{
@@ -39,7 +41,7 @@ namespace LightBlueV2
             }
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -66,7 +68,7 @@ namespace LightBlueV2
             }
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -93,7 +95,7 @@ namespace LightBlueV2
             }
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -120,7 +122,7 @@ namespace LightBlueV2
             }
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             //TODO: Castling
             int rowDiff = m.toRow - m.fromRow;
@@ -148,7 +150,7 @@ namespace LightBlueV2
             }
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -191,7 +193,7 @@ namespace LightBlueV2
                 Img = "../../Images/black_queen.png";
             }
         }
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
