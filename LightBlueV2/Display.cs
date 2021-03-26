@@ -213,6 +213,10 @@ namespace LightBlueV2
                     pb.Image =
                         (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
                 }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
             }
         }
     }
