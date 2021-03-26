@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace LightBlueV2
 {
-	public class Piece
+	public abstract class Piece
 	{
 		public char Color { get; set; }
         protected bool HasMoved { get; set; }
@@ -17,6 +17,8 @@ namespace LightBlueV2
         {
 			this.Color = color;
         }
+
+        public abstract bool ValidMove(Move m, Piece[,] Board);
 	}
 	public class Bishop : Piece
 	{
@@ -25,7 +27,7 @@ namespace LightBlueV2
             HasMoved = false;
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -44,7 +46,7 @@ namespace LightBlueV2
             HasMoved = false;
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -63,7 +65,7 @@ namespace LightBlueV2
             HasMoved = false;
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -82,7 +84,7 @@ namespace LightBlueV2
             HasMoved = false;
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             //TODO: Castling
             int rowDiff = m.toRow - m.fromRow;
@@ -102,7 +104,7 @@ namespace LightBlueV2
             HasMoved = false;
         }
 
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
@@ -137,7 +139,7 @@ namespace LightBlueV2
         {
             HasMoved = false;
         }
-        bool ValidMove(Move m, Piece[,] Board)
+        public override bool ValidMove(Move m, Piece[,] Board)
         {
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
