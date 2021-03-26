@@ -46,11 +46,13 @@ namespace LightBlueV2
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
-            if(rowDiff == colDiff)
+            if(Math.Abs(rowDiff) == Math.Abs(colDiff))
             {
                 return true;
             }
             System.Console.WriteLine("BAD BISHOP MOVE");
+            System.Console.WriteLine("Row Diff: " + rowDiff);
+            System.Console.WriteLine("Col Diff: " + colDiff);
             return false;
         }
 	}
@@ -78,6 +80,11 @@ namespace LightBlueV2
             {
                 return true;
             }
+            if (Math.Abs(rowDiff) == 1 && Math.Abs(colDiff) == 2)
+            {
+                return true;
+            }
+
             System.Console.WriteLine("BAD KNIGHT MOVE");
             return false;
         }
@@ -131,10 +138,12 @@ namespace LightBlueV2
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
-            if(Math.Abs(rowDiff) == 1 && Math.Abs(colDiff)  == 1)
+            if(Math.Abs(rowDiff) < 2 && Math.Abs(colDiff)  < 2)
             {
                 return true;
             }
+            System.Console.WriteLine("Row Diff: ", Math.Abs(rowDiff));
+            System.Console.WriteLine("Col Diff: ", Math.Abs(colDiff));
             System.Console.WriteLine("BAD KING MOVE");
             return false;
         }
