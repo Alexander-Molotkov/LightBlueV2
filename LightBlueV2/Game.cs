@@ -17,14 +17,13 @@ namespace LightBlueV2
 	public class Game
 	{
 
-		Piece[,] Pieces = new Piece[8, 8];
+		public Piece[,] Pieces = new Piece[8, 8];
 		private bool EndGame { get; set; }
 		private int TurnNum { get; set; }
 
 
         public Game()
 		{
-
 			PopulateBoard(); 
 			TurnNum = 0;
 
@@ -78,7 +77,7 @@ namespace LightBlueV2
 			}
 			for (int i = 0; i < 8; i++)
 			{
-				Pieces[6,i] = new Pawn('W', 1, i);
+				Pieces[6,i] = new Pawn('W', 6, i);
 			}
 			return 0;
 		}

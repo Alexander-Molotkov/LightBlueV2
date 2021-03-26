@@ -30,7 +30,6 @@ namespace LightBlueV2
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
             
             Display.Board board = new Display.Board(PB);
-            board.DrawBoxesInit();
 
             for (int i = 0; i < 8; i++)
             {
@@ -104,43 +103,22 @@ namespace LightBlueV2
                     x_coord = 0;
                     y_coord += (int)Math.Floor(SquareWidth);
                 }
+                DrawBoxesFromDisplay(G.Pieces);
             }
-            public void DrawBoxesInit()
-            {
-                pbs[0, 0].Image = Image.FromFile("../../Images/white_rook.png");
-                pbs[0, 1].Image = Image.FromFile("../../Images/white_knight.png");
-                pbs[0, 2].Image = Image.FromFile("../../Images/white_bishop.png");
-                pbs[0, 3].Image = Image.FromFile("../../Images/white_king.png");
-                pbs[0, 4].Image = Image.FromFile("../../Images/white_queen.png");
-                pbs[0, 5].Image = Image.FromFile("../../Images/white_bishop.png");
-                pbs[0, 6].Image = Image.FromFile("../../Images/white_knight.png");
-                pbs[0, 7].Image = Image.FromFile("../../Images/white_rook.png");
 
-                for (int i = 0; i < 8; i++)
-                {
-                    pbs[1, i].Image = Image.FromFile("../../Images/white_pawn.png");
-                    pbs[6, i].Image = Image.FromFile("../../Images/black_pawn.png");
-                }
-
-                pbs[7, 0].Image = Image.FromFile("../../Images/black_rook.png");
-                pbs[7, 1].Image = Image.FromFile("../../Images/black_knight.png");
-                pbs[7, 2].Image = Image.FromFile("../../Images/black_bishop.png");
-                pbs[7, 3].Image = Image.FromFile("../../Images/black_king.png");
-                pbs[7, 4].Image = Image.FromFile("../../Images/black_queen.png");
-                pbs[7, 5].Image = Image.FromFile("../../Images/black_bishop.png");
-                pbs[7, 6].Image = Image.FromFile("../../Images/black_knight.png");
-                pbs[7, 7].Image = Image.FromFile("../../Images/black_rook.png");
-            }
             public void DrawBoxesFromDisplay(Piece[,] pieces)
             {
                 for (int i = 0; i < pieces.GetLength(0); i++)
                 {
                     for (int j = 0; j < pieces.GetLength(1); j++)
                     {
-                        string img = pieces[i, j].Img;
-                        int row = pieces[i, j].Row;
-                        int col = pieces[i, j].Col;
-                        pbs[row, col].Image = Image.FromFile(img);
+                        if (pieces[i, j] != null)
+                        {
+                            string img = pieces[i, j].Img;
+                            int row = pieces[i, j].Row;
+                            int col = pieces[i, j].Col;
+                            pbs[row, col].Image = Image.FromFile(img);
+                        }
                     }
                 }
             }

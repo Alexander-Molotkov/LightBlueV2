@@ -50,6 +50,7 @@ namespace LightBlueV2
             {
                 return true;
             }
+            System.Console.WriteLine("BAD BISHOP MOVE");
             return false;
         }
 	}
@@ -77,6 +78,7 @@ namespace LightBlueV2
             {
                 return true;
             }
+            System.Console.WriteLine("BAD KNIGHT MOVE");
             return false;
         }
 	}
@@ -104,6 +106,7 @@ namespace LightBlueV2
             {
                 return true;
             }
+            System.Console.WriteLine("BAD ROOK MOVE");
             return false;
         }
     }
@@ -132,6 +135,7 @@ namespace LightBlueV2
             {
                 return true;
             }
+            System.Console.WriteLine("BAD KING MOVE");
             return false;
         }
 	}
@@ -158,24 +162,25 @@ namespace LightBlueV2
             //Regular pawn movement
             //TODO: Implement pawn capturing
             //TODO: Implement in peasant
-            if(colDiff > 0 && rowDiff == 1 && this.Color == 'W')
+            if(colDiff == 0 && rowDiff == 1 && Color == 'B')
             {
                 return true;
             }
-            if(colDiff > 0 && rowDiff == -1 && this.Color == 'B')
+            if(colDiff== 0 && rowDiff == -1 && Color == 'W')
             {
                 return true;
             }
 
             //Pawn double movement on the first move 
-            if(colDiff > 0 && rowDiff == 2 && this.Color == 'W')
+            if(colDiff == 0 && rowDiff == 2 && Color == 'B')
             {
                 return true;
             }
-            if(colDiff > 0 && rowDiff == -2 && this.Color == 'B')
+            if(colDiff == 0 && rowDiff == -2 && Color == 'W')
             {
                 return true;
             }
+            System.Console.WriteLine("BAD PAWN MOVE");
             return false;
         }
 	}
@@ -202,6 +207,7 @@ namespace LightBlueV2
             {
                 return true;
             }
+            System.Console.WriteLine("BAD QUEEN MOVE");
             return false;
         }
 	}
