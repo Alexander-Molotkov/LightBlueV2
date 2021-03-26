@@ -27,14 +27,14 @@ namespace LightBlueV2
             PB.BackColor = Color.PapayaWhip;
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
             
-            Display.MoveForm moveForm = new Display.MoveForm(PB);
-            moveForm.DrawBoxesInit();
+            Display.Board board = new Display.Board(PB);
+            board.DrawBoxesInit();
 
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    moveForm.pbs[i, j].Parent = PB;
+                    board.pbs[i, j].Parent = PB;
                 }
             }
             this.Controls.Add(PB);
