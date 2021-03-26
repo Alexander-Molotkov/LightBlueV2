@@ -18,7 +18,6 @@ namespace LightBlueV2
         }
 
 
-        private Game G = new Game();
         private PictureBox PB = new PictureBox();
 
 
@@ -30,6 +29,7 @@ namespace LightBlueV2
             
             Display.MoveForm moveForm = new Display.MoveForm(PB);
             moveForm.DrawBoxesInit();
+
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -64,10 +64,14 @@ namespace LightBlueV2
             }
         }
         // Start a drag of a piece.
-        public class MoveForm : Form
+        public class Board : Form
         {
+            public Move CurrentMove;
             public PictureBox[,] pbs;
-            public MoveForm(PictureBox PB)
+
+            private Game G = new Game();
+
+            public Board(PictureBox PB)
             {
                 // 695 by 720
                 float SquareWidth = 695 / 8;
@@ -142,6 +146,12 @@ namespace LightBlueV2
                 if (e.Button == MouseButtons.Left)
                 {
                     PictureBox pb = (PictureBox)sender;
+
+                    float SquareWidth = 695 / 8;
+                    CurrentMove.fromCol = (int) pb.Location.X / (int) SquareWidth;
+                    CurrentMove.fromRow = (int) pb.Location.Y / (int) SquareWidth;
+                    
+
                     if (pb.Image != null)
                     {
                         pb.DoDragDrop(pb.Image,
@@ -171,8 +181,16 @@ namespace LightBlueV2
                 DragEventArgs e)
             {
                 PictureBox pb = (PictureBox)sender;
-                pb.Image =
-                    (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
+
+                float SquareWidth = 695 / 8;
+                CurrentMove.toCol = (int) pb.Location.X / (int) SquareWidth;
+                CurrentMove.toRow = (int) pb.Location.Y / (int) SquareWidth;
+
+                if (G.ValidateMove(CurrentMove))
+                {
+                    pb.Image =
+                        (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
+                }
             }
         }
     }

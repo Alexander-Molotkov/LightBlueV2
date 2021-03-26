@@ -18,55 +18,36 @@ namespace LightBlueV2
 	{
 
 		Piece[,] Pieces = new Piece[8, 8];
-		private bool HasMoved { get; set; }
-		private Move PlayerMove { get; set; }
 		private bool EndGame { get; set; }
 		private int TurnNum { get; set; }
 
 
-        public void GameLoop()
+        public Game()
 		{
 
-			PopulateBoard(this.Pieces); 
+			PopulateBoard(); 
 			TurnNum = 0;
 
-			while (!EndGame)
-			{
-				//Turn();
-			}
-			System.Console.WriteLine("Game Over!");
 		}
-		private void Turn()
-		{
-			while (HasMoved == false)
-            {
-				//Wait for a move
-			}
-
-			if (ValidateMove(PlayerMove, this.Pieces))
-			{
-				TurnNum++;
-				//TODO:
-				//RecordMove(PlayerMove)
-				MakeMove(PlayerMove, this.Pieces);
-			}
-			HasMoved = false;
-		}
-
-		private bool ValidateMove(Move Mv, Piece[,] Board)
+		public bool ValidateMove(Move Mv)
         {
 			//TODO
-			return true;
+
+			if (Board[Mv.fromRow, Mv.fromCol].ValidMove(Mv, Board)){
+				MakeMove(Mv);
+				return true;
+			}
+			return false;
         }
 
-		private void MakeMove(Move mv, Piece [,] Board)
+		private void MakeMove(Move mv)
         {
 			Board[mv.toRow, mv.toCol] = Board[mv.fromRow, mv.fromCol];
 			Board[mv.fromRow, mv.fromCol] = null;
 			return;
         }
 
-		public int PopulateBoard(Piece[,] pieces)
+		public int PopulateBoard()
 		{
 			for(int i = 0; i < 8; i++)
             {
