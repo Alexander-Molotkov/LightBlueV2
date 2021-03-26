@@ -6,25 +6,39 @@ namespace LightBlueV2
 {
 	public abstract class Piece
 	{
-		public char Color { get; set; }
+        public char Name;
+        public int Row;
+        public int Col;
+        public string Img;
+        public char Color { get; set; }
         protected bool HasMoved { get; set; }
 
 		public Piece()
         {
+
         }
 
-		public Piece(char color)
+		public Piece(char color, int row, int col)
         {
 			this.Color = color;
+            this.Row = row;
+            this.Col = col;
         }
 
         public abstract bool ValidMove(Move m, Piece[,] Board);
 	}
 	public class Bishop : Piece
 	{
-        public Bishop(char color) : base(color)
+        public Bishop(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            if (color == 'W') {
+                Img = "../../Images/white_bishop.png";
+            }
+            else
+            {
+                Img = "../../Images/black_bishop.png";
+            }
         }
 
         public override bool ValidMove(Move m, Piece[,] Board)
@@ -41,9 +55,17 @@ namespace LightBlueV2
 	}
 	public class Knight : Piece
 	{
-        public Knight(char color) : base(color)
+        public Knight(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            if (color == 'W')
+            {
+                Img = "../../Images/white_knight.png";
+            }
+            else
+            {
+                Img = "../../Images/black_knight.png";
+            }
         }
 
         public override bool ValidMove(Move m, Piece[,] Board)
@@ -60,9 +82,17 @@ namespace LightBlueV2
 	}
     public class Rook : Piece
     {
-        public Rook(char color) : base(color)
+        public Rook(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            if (color == 'W')
+            {
+                Img = "../../Images/white_rook.png";
+            }
+            else
+            {
+                Img = "../../Images/black_rook.png";
+            }
         }
 
         public override bool ValidMove(Move m, Piece[,] Board)
@@ -79,9 +109,17 @@ namespace LightBlueV2
     }
     public class King : Piece
 	{
-        public King(char color) : base(color)
+        public King(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            if (color == 'W')
+            {
+                Img = "../../Images/white_king.png";
+            }
+            else
+            {
+                Img = "../../Images/black_king.png";
+            }
         }
 
         public override bool ValidMove(Move m, Piece[,] Board)
@@ -99,9 +137,17 @@ namespace LightBlueV2
 	}
 	public class Pawn : Piece
 	{
-        public Pawn(char color) : base(color)
+        public Pawn(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            if (color == 'W')
+            {
+                Img = "../../Images/white_pawn.png";
+            }
+            else
+            {
+                Img = "../../Images/black_pawn.png";
+            }
         }
 
         public override bool ValidMove(Move m, Piece[,] Board)
@@ -135,9 +181,17 @@ namespace LightBlueV2
 	}
 	public class Queen: Piece
 	{
-        public Queen(char color) : base(color)
+        public Queen(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            if (color == 'W')
+            {
+                Img = "../../Images/white_queen.png";
+            }
+            else
+            {
+                Img = "../../Images/black_queen.png";
+            }
         }
         public override bool ValidMove(Move m, Piece[,] Board)
         {

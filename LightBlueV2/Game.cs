@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,15 +17,17 @@ namespace LightBlueV2
 	public class Game
 	{
 
-		Piece[,] Board = new Piece[8, 8];
+		Piece[,] Pieces = new Piece[8, 8];
 		private bool EndGame { get; set; }
 		private int TurnNum { get; set; }
 
 
         public Game()
 		{
+
 			PopulateBoard(); 
 			TurnNum = 0;
+
 		}
 		public bool ValidateMove(Move Mv)
         {
@@ -50,34 +53,34 @@ namespace LightBlueV2
             {
 				for(int j = 0; j < 8; j++)
                 {
-					Board[i, j] = null;
+					pieces[i, j] = null;
                 }
             }
 
-			Board[0,0] = new Rook('B');
-			Board[0,7] = new Rook('B');
-			Board[7,0] = new Rook('W');
-			Board[7,7] = new Rook('W');
-			Board[0,1] = new Knight('B');
-			Board[0,6] = new Knight('B');
-			Board[7,1] = new Knight('W');
-			Board[7,6] = new Knight('W');
-			Board[0,2] = new Bishop('B');
-			Board[0,5] = new Bishop('B');
-			Board[7,2] = new Bishop('W');
-            Board[7,5] = new Bishop('W');
-			Board[0,3] = new Queen('B');
-			Board[7,3] = new Queen('W');
-			Board[0,4] = new King('B');
-			Board[7,4] = new King('W');
+			pieces[0,0] = new Rook('B', 0, 0);
+			pieces[0,7] = new Rook('B', 0, 7);
+			pieces[7,0] = new Rook('W', 7, 0);
+			pieces[7,7] = new Rook('W', 7, 7);
+			pieces[0,1] = new Knight('B', 0, 1);
+			pieces[0,6] = new Knight('B', 0, 6);
+			pieces[7,1] = new Knight('W', 7, 1);
+			pieces[7,6] = new Knight('W', 7, 6);
+			pieces[0,2] = new Bishop('B', 0 , 2);
+			pieces[0,5] = new Bishop('B', 0 , 5);
+			pieces[7,2] = new Bishop('W', 7 , 2);
+			pieces[7,5] = new Bishop('W', 7, 5);
+			pieces[0,3] = new Queen('B', 0 , 3);
+			pieces[7,3] = new Queen('W', 7, 3);
+			pieces[0,4] = new King('B', 0, 4);
+			pieces[7,4] = new King('W', 7, 4);
 
 			for (int i = 0; i < 8; i++)
 			{
-				Board[1,i] = new Pawn('B');
+				pieces[1,i] = new Pawn('B', 1, i);
 			}
 			for (int i = 0; i < 8; i++)
 			{
-				Board[6,i] = new Pawn('W');
+				pieces[6,i] = new Pawn('W', 1, i);
 			}
 			return 0;
 		}
