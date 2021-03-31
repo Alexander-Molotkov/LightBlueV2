@@ -173,23 +173,18 @@ namespace LightBlueV2
                     x_coord = 0;
                     y_coord += (int)Math.Floor(SquareWidth);
                 }
-                DrawBoxesFromDisplay(G.Pieces);
+                DrawBoxesFromDisplay(G.whitePieces, G.blackPieces);
             }
 
-            public void DrawBoxesFromDisplay(Piece[,] pieces)
+            public void DrawBoxesFromDisplay(Piece[] whitePieces, Piece[] blackPieces)
             {
-                for (int i = 0; i < pieces.GetLength(0); i++)
+                for (int i = 0; i < whitePieces.GetLength(0); i++)
                 {
-                    for (int j = 0; j < pieces.GetLength(1); j++)
-                    {
-                        if (pieces[i, j] != null)
-                        {
-                            string img = pieces[i, j].Img;
-                            int row = pieces[i, j].Row;
-                            int col = pieces[i, j].Col;
-                            pbs[row, col].Image = Image.FromFile(img);
-                        }
-                    }
+                    pbs[whitePieces[i].Row, whitePieces[i].Col].Image = Image.FromFile(whitePieces[i].Img);
+                }
+                for (int i = 0; i < blackPieces.GetLength(0); i++)
+                {
+                    pbs[blackPieces[i].Row, blackPieces[i].Col].Image = Image.FromFile(blackPieces[i].Img);
                 }
             }
             public void pieceDragSource_MouseDown(object sender,

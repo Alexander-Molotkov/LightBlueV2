@@ -17,7 +17,8 @@ namespace LightBlueV2
 	public class Game
 	{
 
-		public Piece[,] Pieces = new Piece[8, 8];
+		public Piece[] blackPieces = new Piece[16];
+		public Piece[] whitePieces = new Piece[16];
 		private bool EndGame { get; set; }
 		private int TurnNum { get; set; }
 
@@ -26,21 +27,39 @@ namespace LightBlueV2
 		{
 			PopulateBoard(); 
 			TurnNum = 0;
-
 		}
 		public bool ValidateMove(Move Mv)
         {
-			if (Pieces[Mv.fromRow, Mv.fromCol].ValidMove(Mv, Pieces)){
-				MakeMove(Mv);
+			Piece p = null;
+			for(int i = 0; i < blackPieces.GetLength(0); i++)
+            {
+				if (blackPieces[i].Row == Mv.fromRow && blackPieces[i].Col == Mv.fromCol)
+                {
+					p = blackPieces[i];
+                }
+            }
+			if (p == null)
+			{
+				for (int i = 0; i < whitePieces.GetLength(0); i++)
+				{
+					if (whitePieces[i].Row == Mv.fromRow && whitePieces[i].Col == Mv.fromCol)
+					{
+						p = whitePieces[i];
+					}
+				}
+			}
+			if (p.ValidMove(Mv, whitePieces, blackPieces)){
+				MakeMove(Mv, p);
 				return true;
 			}
 			return false;
         }
 
-		private void MakeMove(Move mv)
+		private void MakeMove(Move mv, Piece p)
         {
-			Pieces[mv.toRow, mv.toCol] = Pieces[mv.fromRow, mv.fromCol];
-			Pieces[mv.fromRow, mv.fromCol] = null;
+			p.Row = mv.toRow;
+			p.Col = mv.toCol;
+
 			return;
         }
 
@@ -48,36 +67,37 @@ namespace LightBlueV2
 		{
 			for(int i = 0; i < 8; i++)
             {
-				for(int j = 0; j < 8; j++)
-                {
-					Pieces[i, j] = null;
-                }
+				blackPieces[i] = null;
+				whitePieces[i] = null;
             }
 
-			Pieces[0,0] = new Rook('B', 0, 0);
-			Pieces[0,7] = new Rook('B', 0, 7);
-			Pieces[7,0] = new Rook('W', 7, 0);
-			Pieces[7,7] = new Rook('W', 7, 7);
-			Pieces[0,1] = new Knight('B', 0, 1);
-			Pieces[0,6] = new Knight('B', 0, 6);
-			Pieces[7,1] = new Knight('W', 7, 1);
-			Pieces[7,6] = new Knight('W', 7, 6);
-			Pieces[0,2] = new Bishop('B', 0 , 2);
-			Pieces[0,5] = new Bishop('B', 0 , 5);
-			Pieces[7,2] = new Bishop('W', 7 , 2);
-			Pieces[7,5] = new Bishop('W', 7, 5);
-			Pieces[0,3] = new Queen('B', 0 , 3);
-			Pieces[7,3] = new Queen('W', 7, 3);
-			Pieces[0,4] = new King('B', 0, 4);
-			Pieces[7,4] = new King('W', 7, 4);
+			blackPieces[0] = new Rook('B', 0, 0);
+			blackPieces[1] = new Rook('B', 0, 7);
+			blackPieces[2] = new Knight('B', 0, 1);
+			blackPieces[3] = new Knight('B', 0, 6);
+			blackPieces[4] = new Bishop('B', 0, 2);
+			blackPieces[5] = new Bishop('B', 0, 5);
+			blackPieces[6] = new Queen('B', 0, 3);
+			blackPieces[7] = new King('B', 0, 4);
 
+			whitePieces[0] = new Rook('W', 7, 0);
+			whitePieces[1] = new Rook('W', 7, 7);			
+			whitePieces[2] = new Knight('W', 7, 1);
+			whitePieces[3] = new Knight('W', 7, 6);
+			whitePieces[4] = new Bishop('W', 7 , 2);
+			whitePieces[5] = new Bishop('W', 7, 5);
+			whitePieces[6] = new Queen('W', 7, 3);
+			whitePieces[7] = new King('W', 7, 4);
+
+			int j = 8;
 			for (int i = 0; i < 8; i++)
 			{
-				Pieces[1,i] = new Pawn('B', 1, i);
+				blackPieces[j++] = new Pawn('B', 1, i);
 			}
+			j = 8;
 			for (int i = 0; i < 8; i++)
 			{
-				Pieces[6,i] = new Pawn('W', 6, i);
+				whitePieces[j++] = new Pawn('W', 6, i);
 			}
 			return 0;
 		}
