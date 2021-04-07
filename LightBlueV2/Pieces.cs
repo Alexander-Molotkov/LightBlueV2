@@ -11,7 +11,7 @@ namespace LightBlueV2
         public int Col;
         public string Img;
         public char Color { get; set; }
-        protected bool HasMoved { get; set; }
+        public bool HasMoved { get; set; }
 
 		public Piece()
         {
@@ -32,6 +32,7 @@ namespace LightBlueV2
         public Bishop(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            Name = 'B';
             if (color == 'W') {
                 Img = "../../Images/white_bishop.png";
             }
@@ -48,6 +49,7 @@ namespace LightBlueV2
 
             if(Math.Abs(rowDiff) == Math.Abs(colDiff))
             {
+                this.HasMoved = true;
                 return true;
             }
             System.Console.WriteLine("BAD BISHOP MOVE");
@@ -61,6 +63,7 @@ namespace LightBlueV2
         public Knight(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            Name = 'N';
             if (color == 'W')
             {
                 Img = "../../Images/white_knight.png";
@@ -78,10 +81,12 @@ namespace LightBlueV2
 
             if(Math.Abs(rowDiff) == 2 && Math.Abs(colDiff) == 1)
             {
+                this.HasMoved = true;
                 return true;
             }
             if (Math.Abs(rowDiff) == 1 && Math.Abs(colDiff) == 2)
             {
+                this.HasMoved = true;
                 return true;
             }
 
@@ -94,6 +99,7 @@ namespace LightBlueV2
         public Rook(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            Name = 'R';
             if (color == 'W')
             {
                 Img = "../../Images/white_rook.png";
@@ -111,6 +117,7 @@ namespace LightBlueV2
 
             if(rowDiff == 0 || colDiff == 0)
             {
+                this.HasMoved = true;
                 return true;
             }
             System.Console.WriteLine("BAD ROOK MOVE");
@@ -122,6 +129,7 @@ namespace LightBlueV2
         public King(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            Name = 'B';
             if (color == 'W')
             {
                 Img = "../../Images/white_king.png";
@@ -134,14 +142,73 @@ namespace LightBlueV2
 
         public override bool ValidMove(Move m, Piece[] white, Piece[] black)
         {
-            //TODO: Castling
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
             if(Math.Abs(rowDiff) < 2 && Math.Abs(colDiff)  < 2)
             {
+                this.HasMoved = true;
                 return true;
             }
+
+            // Castling
+            if (Color == 'W' && HasMoved == false && m.toCol == 2)
+            {
+                for (int i = 0; i < white.Length; i++)
+                {
+                    if (white[i].Name == 'R' && white[i].HasMoved == false && white[i].Col == 0)
+                    {
+                        white[i].Col = 3;
+                        white[i].HasMoved = true;
+                        this.HasMoved = true;
+                        return true;
+                    }
+                }
+            }
+
+            if(Color == 'W' && HasMoved == false && m.toCol == 6)
+            { 
+                for(int i = 0; i < white.Length; i++)
+                {
+                    if(white[i].Name == 'R' && white[i].HasMoved == false && white[i].Col == 7)
+                    {
+                        white[i].Col = 5;
+                        white[i].HasMoved = true;
+                        this.HasMoved = true;
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if(Color == 'B' && HasMoved == false && m.toCol == 2)
+            {
+                for(int i = 0; i < white.Length; i++)
+                {
+                    if(black[i].Name == 'R' && black[i].HasMoved == false && black[i].Col == 0)
+                    {
+                        black[i].Col = 3;
+                        black[i].HasMoved = true;
+                        this.HasMoved = true;
+                        return true;
+                    }
+                }
+            }
+
+            if(Color == 'B' && HasMoved == false && m.toCol == 6)
+            {
+                for(int i = 0; i < white.Length; i++)
+                {
+                    if(black[i].Name == 'R' && black[i].HasMoved == false && black[i].Col == 7)
+                    {
+                        black[i].Col = 5;
+                        black[i].HasMoved = true;
+                        this.HasMoved = true;
+                        return true;
+                    }
+                }
+            }
+
             System.Console.WriteLine("Row Diff: ", Math.Abs(rowDiff));
             System.Console.WriteLine("Col Diff: ", Math.Abs(colDiff));
             System.Console.WriteLine("BAD KING MOVE");
@@ -153,6 +220,7 @@ namespace LightBlueV2
         public Pawn(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            Name = 'P';
             if (color == 'W')
             {
                 Img = "../../Images/white_pawn.png";
@@ -165,28 +233,32 @@ namespace LightBlueV2
 
         public override bool ValidMove(Move m, Piece[] white, Piece[] black)
         {
-            int rowDiff = m.toRow - m.fromRow;
-            int colDiff = m.toCol - m.fromCol;
+            int rowDiff = m.fromRow - m.toRow;
+            int colDiff = m.fromCol - m.toCol;
 
             //Regular pawn movement
             //TODO: Implement pawn capturing
             //TODO: Implement in peasant
-            if(colDiff == 0 && rowDiff == 1 && Color == 'B')
+            if(Color == 'B' && colDiff == 0 && m.toRow == (m.fromRow + 1))
             {
+                this.HasMoved = true;
                 return true;
             }
-            if(colDiff== 0 && rowDiff == -1 && Color == 'W')
+            if(Color == 'W' && colDiff == 0 && m.toRow == (m.fromRow - 1))
             {
+                this.HasMoved = true;
                 return true;
             }
 
             //Pawn double movement on the first move 
-            if(colDiff == 0 && rowDiff == 2 && Color == 'B')
+            if(Color == 'B' && this.HasMoved == false && colDiff == 0 && rowDiff == -2)
             {
+                this.HasMoved = true;
                 return true;
             }
-            if(colDiff == 0 && rowDiff == -2 && Color == 'W')
+            if(Color == 'W' && this.HasMoved == false && colDiff == 0 && rowDiff == 2)
             {
+                this.HasMoved = true;
                 return true;
             }
             System.Console.WriteLine("BAD PAWN MOVE");
@@ -198,6 +270,7 @@ namespace LightBlueV2
         public Queen(char color, int row, int col) : base(color, row, col)
         {
             HasMoved = false;
+            Name = 'Q';
             if (color == 'W')
             {
                 Img = "../../Images/white_queen.png";
@@ -214,6 +287,7 @@ namespace LightBlueV2
 
             if (rowDiff == 0 || colDiff == 0 || Math.Abs(rowDiff) == Math.Abs(colDiff))
             {
+                this.HasMoved = true;
                 return true;
             }
             System.Console.WriteLine("BAD QUEEN MOVE");
