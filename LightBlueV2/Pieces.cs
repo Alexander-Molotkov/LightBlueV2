@@ -25,7 +25,7 @@ namespace LightBlueV2
             this.Col = col;
         }
 
-        public abstract bool ValidMove(Move m, Piece[] White, Piece[] Black);
+        public abstract bool ValidMove(Move m, Piece[] White, Piece[] Black, char allowedColor);
 	}
 	public class Bishop : Piece
 	{
@@ -41,8 +41,26 @@ namespace LightBlueV2
             }
         }
 
-        public override bool ValidMove(Move m, Piece[] white, Piece[] black)
+        public override bool ValidMove(Move m, Piece[] white, Piece[] black, char allowedColor)
         {
+            Piece p = white[0];
+            for (int i = 0; i < white.Length; i++) {
+                if (white[i].Row == m.fromRow && white[i].Col == m.fromCol)
+                {
+                    p = white[i];
+                }
+            }
+            for (int i = 0; i < black.Length; i++)
+            {
+                if (black[i].Row == m.fromRow && black[i].Col == m.fromCol)
+                {
+                    p = black[i];
+                }
+            }
+            if (p.Color != allowedColor)
+            {
+                return false;
+            }
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
@@ -71,8 +89,27 @@ namespace LightBlueV2
             }
         }
 
-        public override bool ValidMove(Move m, Piece[] white, Piece[] black)
+        public override bool ValidMove(Move m, Piece[] white, Piece[] black, char allowedColor)
         {
+            Piece p = white[0];
+            for (int i = 0; i < white.Length; i++)
+            {
+                if (white[i].Row == m.fromRow && white[i].Col == m.fromCol)
+                {
+                    p = white[i];
+                }
+            }
+            for (int i = 0; i < black.Length; i++)
+            {
+                if (black[i].Row == m.fromRow && black[i].Col == m.fromCol)
+                {
+                    p = black[i];
+                }
+            }
+            if (p.Color != allowedColor)
+            {
+                return false;
+            }
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
@@ -104,8 +141,27 @@ namespace LightBlueV2
             }
         }
 
-        public override bool ValidMove(Move m, Piece[] white, Piece[] black)
+        public override bool ValidMove(Move m, Piece[] white, Piece[] black, char allowedColor)
         {
+            Piece p = white[0];
+            for (int i = 0; i < white.Length; i++)
+            {
+                if (white[i].Row == m.fromRow && white[i].Col == m.fromCol)
+                {
+                    p = white[i];
+                }
+            }
+            for (int i = 0; i < black.Length; i++)
+            {
+                if (black[i].Row == m.fromRow && black[i].Col == m.fromCol)
+                {
+                    p = black[i];
+                }
+            }
+            if (p.Color != allowedColor)
+            {
+                return false;
+            }
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
@@ -132,9 +188,28 @@ namespace LightBlueV2
             }
         }
 
-        public override bool ValidMove(Move m, Piece[] white, Piece[] black)
+        public override bool ValidMove(Move m, Piece[] white, Piece[] black, char allowedColor)
         {
             //TODO: Castling
+            Piece p = white[0];
+            for (int i = 0; i < white.Length; i++)
+            {
+                if (white[i].Row == m.fromRow && white[i].Col == m.fromCol)
+                {
+                    p = white[i];
+                }
+            }
+            for (int i = 0; i < black.Length; i++)
+            {
+                if (black[i].Row == m.fromRow && black[i].Col == m.fromCol)
+                {
+                    p = black[i];
+                }
+            }
+            if (p.Color != allowedColor)
+            {
+                return false;
+            }
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
@@ -163,8 +238,27 @@ namespace LightBlueV2
             }
         }
 
-        public override bool ValidMove(Move m, Piece[] white, Piece[] black)
+        public override bool ValidMove(Move m, Piece[] white, Piece[] black, char allowedColor)
         {
+            Piece p = white[0];
+            for (int i = 0; i < white.Length; i++)
+            {
+                if (white[i].Row == m.fromRow && white[i].Col == m.fromCol)
+                {
+                    p = white[i];
+                }
+            }
+            for (int i = 0; i < black.Length; i++)
+            {
+                if (black[i].Row == m.fromRow && black[i].Col == m.fromCol)
+                {
+                    p = black[i];
+                }
+            }
+            if (p.Color != allowedColor)
+            {
+                return false;
+            }
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 
@@ -207,8 +301,27 @@ namespace LightBlueV2
                 Img = "../../Images/black_queen.png";
             }
         }
-        public override bool ValidMove(Move m, Piece[] white, Piece[] black)
+        public override bool ValidMove(Move m, Piece[] white, Piece[] black, char allowedColor)
         {
+            Piece p = white[0];
+            for (int i = 0; i < white.Length; i++)
+            {
+                if (white[i].Row == m.fromRow && white[i].Col == m.fromCol)
+                {
+                    p = white[i];
+                }
+            }
+            for (int i = 0; i < black.Length; i++)
+            {
+                if (black[i].Row == m.fromRow && black[i].Col == m.fromCol)
+                {
+                    p = black[i];
+                }
+            }
+            if (p.Color != allowedColor)
+            {
+                return false;
+            }
             int rowDiff = m.toRow - m.fromRow;
             int colDiff = m.toCol - m.fromCol;
 

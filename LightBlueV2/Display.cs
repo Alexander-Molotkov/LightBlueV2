@@ -148,6 +148,8 @@ namespace LightBlueV2
 
             public Engine E;
 
+            public char allowedColor;
+
             public Board(PictureBox PB)
             {
                 E = new Engine();
@@ -161,24 +163,25 @@ namespace LightBlueV2
                     {
                         pbs[i, j] = new PictureBox();
                         pbs[i, j].Width = (int)Math.Floor(SquareWidth - 10);
-                        pbs[i,j].Height = (int)Math.Floor(SquareWidth - 10);
-                        pbs[i,j].SizeMode = PictureBoxSizeMode.StretchImage;
-                        pbs[i,j].Dock = DockStyle.None;
-                        pbs[i,j].MouseDown += pieceDragSource_MouseDown;
-                        pbs[i,j].DragEnter += pieceDropTarget_DragEnter;
-                        pbs[i,j].DragDrop += pieceDropTarget_DragDrop;
+                        pbs[i, j].Height = (int)Math.Floor(SquareWidth - 10);
+                        pbs[i, j].SizeMode = PictureBoxSizeMode.StretchImage;
+                        pbs[i, j].Dock = DockStyle.None;
+                        pbs[i, j].MouseDown += pieceDragSource_MouseDown;
+                        pbs[i, j].DragEnter += pieceDropTarget_DragEnter;
+                        pbs[i, j].DragDrop += pieceDropTarget_DragDrop;
                         pbs[i, j].GiveFeedback += pieceDragSource_GiveFeedback;
-                        pbs[i,j].Location = new System.Drawing.Point(x_coord, y_coord);
-                        pbs[i,j].BackColor = Color.Transparent;
+                        pbs[i, j].Location = new System.Drawing.Point(x_coord, y_coord);
+                        pbs[i, j].BackColor = Color.Transparent;
                         pbs[i, j].AllowDrop = true;
-                        this.Controls.Add(pbs[i,j]);
+                        this.Controls.Add(pbs[i, j]);
                         x_coord += (int)Math.Floor(SquareWidth);
                     }
                     x_coord = 0;
                     y_coord += (int)Math.Floor(SquareWidth);
                 }
                 DrawBoxesFromDisplay(G.whitePieces, G.blackPieces);
-                E.EngineMakeMove(this);
+                G.Turn(E, this);
+                G.Turn(E, this);
             }
 
             public void DrawBoxesFromDisplay(Piece[] whitePieces, Piece[] blackPieces)
