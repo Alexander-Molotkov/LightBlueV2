@@ -20,7 +20,7 @@ namespace LightBlueV2
 		public Piece[] blackPieces = new Piece[16];
 		public Piece[] whitePieces = new Piece[16];
 		private bool EndGame { get; set; }
-		private int TurnNum { get; set; }
+		public int TurnNum { get; set; }
 
 
         public Game()
@@ -48,7 +48,7 @@ namespace LightBlueV2
 					}
 				}
 			}
-			if (p.ValidMove(Mv, whitePieces, blackPieces)){
+			if (p.ValidMove(Mv, whitePieces, blackPieces, p.Color)){
 				MakeMove(Mv, p);
 				return true;
 			}
@@ -101,5 +101,14 @@ namespace LightBlueV2
 			}
 			return 0;
 		}
+		public void Turn(Engine e, Display.Board board)
+        {
+			if (TurnNum % 2 == 0)
+            {
+				// White's turn to move.
+				board.allowedColor = 'W';
+            }
+			e.EngineMakeMove(board);
+        }
 	}
 }
