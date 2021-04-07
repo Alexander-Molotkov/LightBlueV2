@@ -55,7 +55,7 @@ namespace LightBlueV2
 			return false;
         }
 
-		private void MakeMove(Move mv, Piece p)
+		public void MakeMove(Move mv, Piece p)
         {
 			p.Row = mv.toRow;
 			p.Col = mv.toCol;

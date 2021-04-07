@@ -91,7 +91,7 @@ namespace LightBlueV2
 
 
         private PictureBox PB = new PictureBox();
-
+        public Display.Board board;
 
         private void Board_Load(object sender, EventArgs e)
         {
@@ -99,7 +99,7 @@ namespace LightBlueV2
             PB.BackColor = Color.PapayaWhip;
             PB.Paint += new System.Windows.Forms.PaintEventHandler(this.Board_Draw);
             
-            Display.Board board = new Display.Board(PB);
+            board = new Display.Board(PB);
 
             for (int i = 0; i < 8; i++)
             {
@@ -144,10 +144,14 @@ namespace LightBlueV2
             public float SquareWidth = 695 / 8;
             private Cursor dragCursor;
 
-            private Game G = new Game();
+            public Game G;
+
+            public Engine E;
 
             public Board(PictureBox PB)
             {
+                E = new Engine();
+                G = new Game();
                 pbs = new PictureBox[8, 8];
                 int x_coord = 0;
                 int y_coord = 0;
@@ -174,6 +178,7 @@ namespace LightBlueV2
                     y_coord += (int)Math.Floor(SquareWidth);
                 }
                 DrawBoxesFromDisplay(G.whitePieces, G.blackPieces);
+                E.EngineMakeMove(this);
             }
 
             public void DrawBoxesFromDisplay(Piece[] whitePieces, Piece[] blackPieces)
