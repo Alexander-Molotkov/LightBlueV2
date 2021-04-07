@@ -178,6 +178,11 @@ namespace LightBlueV2
 
             public void DrawBoxesFromDisplay(Piece[] whitePieces, Piece[] blackPieces)
             {
+
+                foreach(PictureBox p in pbs)
+                {
+                    p.Image = null;
+                }
                 for (int i = 0; i < whitePieces.GetLength(0); i++)
                 {
                     pbs[whitePieces[i].Row, whitePieces[i].Col].Image = Image.FromFile(whitePieces[i].Img);
@@ -198,7 +203,6 @@ namespace LightBlueV2
                     float SquareWidth = 695 / 8;
                     CurrentMove.fromCol = (int) pb.Location.X / (int) SquareWidth;
                     CurrentMove.fromRow = (int) pb.Location.Y / (int) SquareWidth;
-                    
 
                     if (pb.Image != null)
                     {
@@ -265,8 +269,7 @@ namespace LightBlueV2
 
                 if (G.ValidateMove(CurrentMove))
                 {
-                    pb.Image =
-                        (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
+                    DrawBoxesFromDisplay(G.whitePieces, G.blackPieces);
                 }
                 else
                 {
