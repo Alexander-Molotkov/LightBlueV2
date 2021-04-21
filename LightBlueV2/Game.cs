@@ -115,7 +115,6 @@ namespace LightBlueV2
 		}
 		public void Turn(Engine e, Display.Board board)
         {
-			Console.WriteLine(TurnNum);
 			if (TurnNum % 2 == 0)
 			{
 				// White's turn to move.
@@ -124,7 +123,7 @@ namespace LightBlueV2
 			else
 			{
 				allowedColor = 'B';
-				e.EngineMakeMove(board);
+				e.MoveCalculate(board);
 			}
         }
 	}
