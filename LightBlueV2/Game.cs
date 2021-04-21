@@ -19,15 +19,16 @@ namespace LightBlueV2
 
 		public Piece[] blackPieces = new Piece[16];
 		public Piece[] whitePieces = new Piece[16];
+		public char allowedColor = 'W';
 		private bool EndGame { get; set; }
 		public int TurnNum { get; set; }
-
 
         public Game()
 		{
 			PopulateBoard(); 
 			TurnNum = 0;
 		}
+
 		public bool ValidateMove(Move Mv)
         {
 			Piece p = null;
@@ -48,6 +49,10 @@ namespace LightBlueV2
 					}
 				}
 			}
+			if (p.Color != allowedColor)
+            {
+				return false;
+            }
 			if (p.ValidMove(Mv, whitePieces, blackPieces, p.Color)){
 				MakeMove(Mv, p);
 				return true;
@@ -59,7 +64,14 @@ namespace LightBlueV2
         {
 			p.Row = mv.toRow;
 			p.Col = mv.toCol;
-
+			if (p.Color == 'B') {
+				allowedColor = 'W';
+            }
+			else
+            {
+				allowedColor = 'B';
+            }
+			TurnNum++;
 			return;
         }
 
@@ -104,11 +116,15 @@ namespace LightBlueV2
 		public void Turn(Engine e, Display.Board board)
         {
 			if (TurnNum % 2 == 0)
-            {
+			{
 				// White's turn to move.
-				board.allowedColor = 'W';
-            }
-			e.EngineMakeMove(board);
+				allowedColor = 'W';
+			}
+			else
+			{
+				allowedColor = 'B';
+				e.EngineMakeMove(board);
+			}
         }
 	}
 }

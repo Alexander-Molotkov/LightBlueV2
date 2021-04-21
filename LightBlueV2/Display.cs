@@ -13,8 +13,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-// https://stackoverflow.com/questions/24695976/resize-system-icon-in-c-sharp
-public class IconEx : IDisposable
+    // https://stackoverflow.com/questions/24695976/resize-system-icon-in-c-sharp
+    public class IconEx : IDisposable
 {
     public enum SystemIcons
     {
@@ -109,6 +109,8 @@ namespace LightBlueV2
                 }
             }
             this.Controls.Add(PB);
+            // Later this should be while no one has won the game
+            board.G.Turn(board.E, board);
         }
 
         private void Board_Draw(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -180,8 +182,7 @@ namespace LightBlueV2
                     y_coord += (int)Math.Floor(SquareWidth);
                 }
                 DrawBoxesFromDisplay(G.whitePieces, G.blackPieces);
-                G.Turn(E, this);
-                G.Turn(E, this);
+                
             }
 
             public void DrawBoxesFromDisplay(Piece[] whitePieces, Piece[] blackPieces)
