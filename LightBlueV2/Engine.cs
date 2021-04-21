@@ -26,7 +26,6 @@ namespace LightBlueV2
                 move.toRow = rand.Next(0, 8);
                 move.toCol = rand.Next(0, 8);
             }
-            board.G.MakeMove(move, p);
             
             board.DrawBoxesFromDisplay(board.G.whitePieces, board.G.blackPieces);
             board.pbs[move.fromRow, move.fromCol].Image = null;

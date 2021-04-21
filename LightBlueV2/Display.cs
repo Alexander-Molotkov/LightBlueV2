@@ -279,6 +279,7 @@ namespace LightBlueV2
                 if (G.ValidateMove(CurrentMove))
                 {
                     DrawBoxesFromDisplay(G.whitePieces, G.blackPieces);
+                    G.Turn(E, this);
                 }
                 else
                 {
