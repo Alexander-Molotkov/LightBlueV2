@@ -10,6 +10,7 @@ namespace LightBlueV2
         public int Row;
         public int Col;
         public string Img;
+        public int Value;
         public char Color { get; set; }
         public bool HasMoved { get; set; }
 
@@ -31,6 +32,7 @@ namespace LightBlueV2
 	{
         public Bishop(char color, int row, int col) : base(color, row, col)
         {
+            Value = 3;
             HasMoved = false;
             Name = 'B';
             if (color == 'W') {
@@ -80,6 +82,7 @@ namespace LightBlueV2
 	{
         public Knight(char color, int row, int col) : base(color, row, col)
         {
+            Value = 3;
             HasMoved = false;
             Name = 'N';
             if (color == 'W')
@@ -135,6 +138,7 @@ namespace LightBlueV2
     {
         public Rook(char color, int row, int col) : base(color, row, col)
         {
+            Value = 5;
             HasMoved = false;
             Name = 'R';
             if (color == 'W')
@@ -295,6 +299,7 @@ namespace LightBlueV2
 	{
         public Pawn(char color, int row, int col) : base(color, row, col)
         {
+            Value = 1;
             HasMoved = false;
             Name = 'P';
             if (color == 'W')
@@ -364,6 +369,7 @@ namespace LightBlueV2
 	{
         public Queen(char color, int row, int col) : base(color, row, col)
         {
+            Value = 9;
             HasMoved = false;
             Name = 'Q';
             if (color == 'W')
